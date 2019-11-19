@@ -1,0 +1,44 @@
+{
+  "name": "timepostoffice",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "core-js": "^3.3.2",
+    "element-ui": "^2.12.0",
+    "save": "^2.4.0",
+    "vue": "^2.6.10",
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^3.1.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.0.0",
+    "@vue/cli-service": "^4.0.0",
+    "babel-plugin-component": "^1.1.1",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^8.0.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {
+        "overrideBrowserslist": [
+          "Android 4.1",
+          "iOS 7.1",
+          "Chrome > 31",
+          "ff > 31",
+          "ie >= 8"
+        ]
+      }
+    }
+  },
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "maintained node versions",
+    "not dead"
+  ]
+}
