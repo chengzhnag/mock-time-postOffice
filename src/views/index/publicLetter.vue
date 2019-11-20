@@ -61,6 +61,7 @@ export default {
             a {
                 color: #3498db;
                 word-wrap: break-word;
+                margin-right: 70px;
             }
 
             span {
