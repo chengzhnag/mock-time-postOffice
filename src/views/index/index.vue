@@ -53,6 +53,9 @@ import {
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
+import {
+    url
+} from "@/utils/config.js";
 export default {
     components: {
         [Form.name]: Form,
@@ -102,7 +105,7 @@ export default {
                 }]
             },
             editorOption: {},
-            imgSrc: 'http://192.168.0.106:3000/captcha'
+            imgSrc: url + '/captcha'
         };
     },
 
@@ -140,7 +143,8 @@ export default {
         onEditorFocus() {}, // 获得焦点事件
         onEditorChange() {}, // 内容改变事件
         changeImg(e) {
-            this.imgSrc = 'http://192.168.0.106:3000/captcha?' + Math.random();
+            console.log(url);
+            this.imgSrc = url + '/captcha?' + Math.random();
         }
     }
 }
