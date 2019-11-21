@@ -9,11 +9,13 @@ router.get('/', function (req, res, next) {
 
 router.get('/captcha', function (req, res) {
   var captcha = svgCaptcha.create();
-  // req.session.captcha = captcha.text;
-
+  req.session.captcha = captcha.text;
   res.type('svg');
-  console.log(captcha.text);
   res.status(200).send(captcha.data);
+});
+
+router.get('/getcaptcha', function (req, res) {
+  res.status(200).send(req.session.captcha);
 });
 
 module.exports = router;
