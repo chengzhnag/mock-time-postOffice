@@ -5,11 +5,30 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var ejs = require('ejs');
 var session = require("express-session");
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var sendRouter = require('./routes/send');
 
 var app = express();
+
+mongoose.connect('mongodb://localhost/zs', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const db = mongoose.connection
+db.once("open", function () {
+  console.log("数据库连接成功");
+})
+db.on("error", function (error) {
+  console.log("数据库连接失败：" + error);
+});
+
+db.on('disconnected', function () {
+  console.log('数据库连接断开');
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,6 +48,7 @@ app.use(session({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/send', sendRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
