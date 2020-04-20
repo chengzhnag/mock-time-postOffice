@@ -41,7 +41,6 @@ export default {
         }
     },
     mounted() {
-        console.log(location.href);
         var href = location.href.split('#')[1];
         if (href.indexOf('&') == -1) {
             this.activeIndex = href;

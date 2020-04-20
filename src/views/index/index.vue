@@ -53,9 +53,8 @@ import {
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
-import {
-    url
-} from "@/utils/config.js";
+import {sendEmail} from '@/api/index.js';
+import dayjs from 'dayjs'
 export default {
     components: {
         [Form.name]: Form,
@@ -105,7 +104,7 @@ export default {
                 }]
             },
             editorOption: {},
-            imgSrc: url + '/captcha'
+            imgSrc: process.env.VUE_APP_BASE_API + '/captcha'
         };
     },
 
@@ -114,7 +113,10 @@ export default {
     computed: {
         editor() {
             return this.$refs.myQuillEditor.quill;
-        }
+        },
+		url() {
+			return process.env.VUE_APP_BASE_API;
+		}
     },
 
     mounted() {},
@@ -126,9 +128,24 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+					if(this.ruleForm.content) {
+						let params = {
+							name: this.ruleForm.name,
+							receiptEmail: this.ruleForm.email,
+							sendTime: this.jointDate(),
+							isPublic: this.ruleForm.public,
+							content: this.ruleForm.content,
+							verificationCode: this.ruleForm.verificationCode
+						}
+						sendEmail(params).then(res=> {
+							console.log(res);
+						}).catch(err=> {
+							
+						});
+					}else {
+						this.$message('请输入邮件内容');
+					}
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });
@@ -143,9 +160,14 @@ export default {
         onEditorFocus() {}, // 获得焦点事件
         onEditorChange() {}, // 内容改变事件
         changeImg(e) {
-            console.log(url);
-            this.imgSrc = url + '/captcha?' + Math.random();
-        }
+            console.log(this.url);
+            this.imgSrc = this.url + '/captcha?' + Math.random();
+        },
+		jointDate() {
+			let q = dayjs(this.ruleForm.date1).format('YYYY-MM-DD HH:mm:ss').split(' ')[0];
+			let h = dayjs(this.ruleForm.date2).format('YYYY-MM-DD HH:mm:ss').split(' ')[1];
+			return `${q} ${h}`;
+		}
     }
 }
 </script>
@@ -171,6 +193,9 @@ export default {
             justify-content: flex-end;
             align-items: center;
         }
+		.line {
+			text-align: center;
+		}
     }
 }
 

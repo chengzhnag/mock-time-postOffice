@@ -30,6 +30,16 @@ db.on('disconnected', function () {
   console.log('数据库连接断开');
 })
 
+// 自定义跨域中间件
+var allowCors = function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', req.headers.origin);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type');
+	res.header('Access-Control-Allow-Credentials', 'true');
+	next();
+};
+app.use(allowCors); //使用跨域中间件
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('.html', ejs.__express);

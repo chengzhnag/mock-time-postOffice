@@ -11,6 +11,8 @@ Vue.use(Input);
 Vue.use(Button);
 Vue.use(Message);
 
+Vue.prototype.$message = Message
+
 new Vue({
   router,
   render: h => h(App)
