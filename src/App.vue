@@ -41,11 +41,18 @@ export default {
         }
     },
     mounted() {
-        var href = location.href.split('#')[1];
+        /* var href = location.href.split('#')[1];
         if (href.indexOf('&') == -1) {
             this.activeIndex = href;
         } else {
             this.activeIndex = href.split('&')[0];
+        } */
+    },
+    watch: {
+        $route(to, from) {
+            //定位tabItem
+            console.log(to);
+            this.activeIndex = to.path;
         }
     },
     methods: {

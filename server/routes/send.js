@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var nodemailer = require('nodemailer');
 var CronJob = require('cron').CronJob;
 var Record = require('../models/record.js');
+const { sendEmail } = require('../utils/sendEmail');
 const {
 	v1: uuidv1
 } = require('uuid');
@@ -26,6 +26,7 @@ router.post('/', (req, res, next) => {
 				let date = new Date(body.sendTime);
 				new CronJob(date, () => {
 					// 发送
+					body.subject = `${body.name}通过时光邮局发送(https://www.hi2future.com/)`;
 					sendEmail(body, suc => {
 						// 发送成功后更新记录状态
 						updateRecord(datas);
@@ -59,12 +60,12 @@ router.post('/', (req, res, next) => {
 	}
 });
 
-router.get('/getcaptcha', function(req, res) {
+router.get('/getcaptcha', function (req, res) {
 	console.log(req.session);
 	res.status(200).send(req.session.captcha);
 });
 
-function sendEmail(body, success, fail) {
+/* function sendEmail(body, success, fail) {
 	var transporter = nodemailer.createTransport({
 		service: 'qq',
 		auth: {
@@ -87,7 +88,7 @@ function sendEmail(body, success, fail) {
 		}
 		success && success(info);
 	});
-}
+} */
 
 function updateRecord(datas, success, fail) {
 	Record.findByIdAndUpdate(datas._id, {

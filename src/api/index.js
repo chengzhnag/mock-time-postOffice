@@ -8,3 +8,11 @@ export const sendEmail = data => {
         data
     });
 };
+
+export const sendExtractEmail = data => {
+    return request({
+        url: '/extract',
+        method: 'post',
+        data
+    });
+};
