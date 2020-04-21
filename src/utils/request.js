@@ -1,4 +1,5 @@
 import axios from 'axios';
+axios.defaults.withCredentials=true;//携带cookie,默认不携带
 
 const service = axios.create({
     baseURL: process.env.VUE_APP_BASE_API,
