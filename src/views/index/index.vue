@@ -1,8 +1,8 @@
 <template>
 <div class="index-box">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="190px" size="small" label-position="left" class="demo-ruleForm">
-        <el-form-item label="你的姓名" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请填写姓名, 将在邮件的标题中出现"></el-input>
+        <el-form-item label="您的昵称" prop="name">
+            <el-input v-model="ruleForm.name" placeholder="请填写昵称, 将在邮件的标题中出现"></el-input>
         </el-form-item>
         <el-form-item label="收件邮箱" prop="email">
             <el-input v-model="ruleForm.email" placeholder="可以是你自己, 或是任何一个你想倾诉的人. 填写TA的邮箱地址, 形如 abc@163.com"></el-input>
@@ -87,7 +87,7 @@ export default {
             rules: {
                 name: [{
                     required: true,
-                    message: '请输入您的姓名',
+                    message: '请输入您的昵称',
                     trigger: 'blur'
                 }],
                 email: [{

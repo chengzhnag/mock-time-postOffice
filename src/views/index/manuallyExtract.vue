@@ -2,8 +2,8 @@
 <div class="extract-box">
     <div v-if="!isSendSuccess">
         <el-form :model="ruleForm" ref="ruleForm" :rules="rules" label-width="190px" size="small" label-position="left" class="demo-ruleForm">
-            <el-form-item label="请填写提取码" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="输入曾经收到的提取码, 手工提取时光信件"></el-input>
+            <el-form-item label="请填写提取码" prop="extract">
+                <el-input v-model="ruleForm.extract" placeholder="输入曾经收到的提取码, 手工提取时光信件"></el-input>
             </el-form-item>
             <el-form-item style="text-align: right">
                 <el-button style="width: 120px;" type="primary" @click="extract('ruleForm')">我要提取</el-button>
@@ -38,7 +38,8 @@ import {
     FormItem
 } from 'element-ui';
 import {
-    sendExtractEmail
+    sendExtractEmail,
+    byExtractGetEmail
 } from '@/api/index.js';
 export default {
     components: {
@@ -48,10 +49,10 @@ export default {
     data() {
         return {
             ruleForm: {
-                name: ''
+                extract: ''
             },
             rules: {
-                name: [{
+                extract: [{
                     required: true,
                     message: '请输入您的提取码',
                     trigger: 'blur'
@@ -120,7 +121,19 @@ export default {
         extract(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    let params = {
+                        extract: this.ruleForm.extract
+                    }
+                    byExtractGetEmail(params).then(res => {
+                        if (res.statusCode) {
+                            this.$storage.write('extract-data', res.data || {});
+                            this.$router.push('public');
+                        } else {
+                            this.$message.error(res.message);
+                        }
+                    }).catch(err => {
+                        this.$message.error('发送提取码失败, 请稍后重试');
+                    })
                 } else {
                     console.log('error submit!!');
                     return false;

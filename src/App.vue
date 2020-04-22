@@ -127,7 +127,7 @@ export default {
 
     .footer {
         border-top: 1px solid #DCDFE6;
-        padding-top: 24px;
+        padding: 24px 0;
         width: 100%;
         height: 40px;
         text-align: center;

@@ -8,7 +8,6 @@ var session = require("express-session");
 const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var sendRouter = require('./routes/send');
 
 var app = express();
@@ -61,7 +60,6 @@ var sess = {
 app.use(session(sess))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/send', sendRouter);
 
 // catch 404 and forward to error handler

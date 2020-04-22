@@ -32,3 +32,12 @@ export const getAllLetter = query => {  // 获取所有邮件列表
         params: query
     });
 };
+
+// 提取邮件
+export const byExtractGetEmail = data => {
+    return request({
+        url: '/byExtractGetEmail',
+        method: 'post',
+        data
+    });
+};

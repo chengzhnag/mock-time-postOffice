@@ -18,8 +18,8 @@ router.post('/', (req, res, next) => {
 		delete body.verificationCode;
 		// 把记录存进数据库
 		body.extractCode = uuidv1();
-		body.sendTime = localDate(body.sendTime);
-		body.createTime = localDate();
+		// body.sendTime = localDate(body.sendTime);
+		// body.createTime = localDate();
 		new Record(body).save((error, datas) => {
 			if (error) {
 				return res.send({
@@ -31,9 +31,11 @@ router.post('/', (req, res, next) => {
 			}
 			try {
 				// 创建定时任务
+				console.log(body.sendTime);
 				let date = new Date(body.sendTime);
 				new CronJob(date, () => {
 					// 发送
+					console.log('body.sendTime: ', body.sendTime);
 					body.subject = `${body.name}通过时光邮局发送(https://www.hi2future.com/)`;
 					sendEmail(body, suc => {
 						// 发送成功后更新记录状态
