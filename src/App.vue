@@ -76,14 +76,23 @@ export default {
     flex-direction: column;
 
     .header {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
         width: 100%;
         height: auto;
+		padding-top: 50px;
 
         .menu-box {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 1001;
             display: flex;
             justify-content: center;
             align-items: center;
             border: none;
+			width: 100%;
             height: 50px;
 
             .menu-item {

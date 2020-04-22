@@ -2,70 +2,178 @@ var express = require('express');
 var router = express.Router();
 var svgCaptcha = require('svg-captcha');
 var Record = require('../models/record.js');
-const { sendEmail } = require('../utils/sendEmail');
+const dtime = require('time-formater');
+const {
+	sendEmail
+} = require('../utils/sendEmail');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', function(req, res, next) {
+	res.render('index', {
+		title: 'Express'
+	});
 });
 
-router.get('/captcha', function (req, res) {
-  var captcha = svgCaptcha.create();
-  req.session.captcha = captcha.text.toLocaleLowerCase();
-  res.type('svg');
-  res.status(200).send(captcha.data);
+// 获取图形验证码图
+router.get('/captcha', function(req, res) {
+	var captcha = svgCaptcha.create();
+	req.session.captcha = captcha.text.toLocaleLowerCase();
+	res.type('svg');
+	res.status(200).send(captcha.data);
 });
 
-router.get('/getcaptcha', function (req, res) {
-  res.status(200).send(req.session.captcha);
+// 获取图形验证码图相对的text文本
+router.get('/getcaptcha', function(req, res) {
+	res.status(200).send(req.session.captcha);
 });
 
+// 发送提取码
 router.post('/extract', (req, res, next) => {
-  let body = req.body;
-  if (body.extract && body.receiptEmail) {
-    Record.findOne({
-      'extractCode': body.extract
-    }, (err, data) => {
-      if (err) {
-        return res.send({
-          success: false,
-          statusCode: 0,
-          message: `根据${body.extract}查询失败`
-        })
-      }
-      body.subject = `时光邮局的提取码`;
-      body.content = `
-        未来的某一天 ( ${data.sendTime} ),
-        你将可以在我们的时光邮局手动提取
-        曾经的你, 或者是他, 或者是她,
-        寄出的那封时光邮件
-        提取码: ${data.extractCode}
-        提取地址: http://hi2future.com/Mail/key
-        
-        欢迎访问http://hi2future.com, 写给未来的Someone
-      `;
-      sendEmail(body, suc => {
-        return res.send({
-          success: true,
-          statusCode: 1,
-          message: `发送提取码邮件成功`
-        })
-      }, error => {
-        return res.send({
-          success: false,
-          statusCode: 0,
-          message: `发送提取码邮件失败`,
-          error: error
-        })
-      });
-    });
-  } else {
-    return res.send({
-      success: false,
-      statusCode: 0,
-      message: `缺少参数 ${body.extract ? '' : 'extract'} ${body.receiptEmail ? '' : 'receiptEmail'}`
-    })
-  }
+	let body = req.body;
+	if (body.extract && body.receiptEmail) {
+		Record.findOne({
+			'extractCode': body.extract
+		}, (err, data) => {
+			if (err) {
+				return res.send({
+					success: false,
+					statusCode: 0,
+					message: `根据${body.extract}查询失败`
+				})
+			}
+			body.subject = `时光邮局的提取码`;
+			body.content =
+				`
+				未来的某一天 ( ${dtime(data.sendTime).format('YYYY-MM-DD HH:mm:ss')} ), <br/>
+				你将可以在我们的时光邮局手动提取<br/>
+				曾经的你, 或者是他, 或者是她,<br/>
+				寄出的那封时光邮件<br/>
+				提取码: <span style="font-weight: bold;">${data.extractCode}</span><br/>
+				提取地址: http://hi2future.com/Mail/key<br/>
+				<br/>
+				欢迎访问http://hi2future.com, 写给未来的Someone<br/>
+			  `;
+			sendEmail(body, suc => {
+				return res.send({
+					success: true,
+					statusCode: 1,
+					message: `发送提取码邮件成功`
+				})
+			}, error => {
+				return res.send({
+					success: false,
+					statusCode: 0,
+					message: `发送提取码邮件失败`,
+					error: error
+				})
+			});
+		});
+	} else {
+		return res.send({
+			success: false,
+			statusCode: 0,
+			message: `缺少参数 ${body.extract ? '' : 'extract'} ${body.receiptEmail ? '' : 'receiptEmail'}`
+		})
+	}
 })
+
+// 获取公开信列表
+router.get('/getPublicLetter', function(req, res) {
+	const {
+		page = 1, pageSize = 10
+	} = req.query;
+	Record.count({
+		isPublic: true
+	}, (err, count) => {
+		Record.find({
+				isPublic: true
+			})
+			.skip((parseInt(page, 10) - 1) * parseInt(pageSize, 10))
+			.limit(parseInt(pageSize, 10))
+			.sort({
+				'_id': -1
+			})
+			.exec((err, doc) => {
+				try {
+					if (!err && doc) {
+						return res.send({
+							success: true,
+							statusCode: 1,
+							totalCount: count,
+							message: `获取列表数据成功`,
+							data: copyAndDelete(doc, 'extractCode')
+						})
+					}
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `获取列表数据失败`,
+						error: err
+					})
+				} catch (e) {
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `发生错误`,
+						error: e
+					})
+				}
+			})
+	})
+});
+
+// 获取所有邮件列表
+router.get('/getAllLetter', function(req, res) {
+	const {
+		page = 1, pageSize = 10
+	} = req.query;
+	Record.count({}, (err, count) => {
+		Record.find({})
+			.skip((parseInt(page, 10) - 1) * parseInt(pageSize, 10))
+			.limit(parseInt(pageSize, 10))
+			.sort({
+				'_id': -1
+			})
+			.exec((err, doc) => {
+				try {
+					if (!err && doc) {
+						return res.send({
+							success: true,
+							statusCode: 1,
+							totalCount: count,
+							message: `获取列表数据成功`,
+							data: copyAndDelete(doc, 'extractCode,content,isPublic,_id')
+						})
+					}
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `获取列表数据失败`,
+						error: err
+					})
+				} catch (e) {
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `发生错误`,
+						error: e
+					})
+				}
+			})
+	})
+});
+
+function copyAndDelete(data, field) {
+	if (data && typeof data == 'object') {
+		let _data = JSON.parse(JSON.stringify(data));
+		_data.forEach(item => {
+			field.split(',').forEach(sitem => {
+				delete item[sitem];
+			})
+		})
+		return _data;
+	}
+	return '';
+}
 
 module.exports = router;

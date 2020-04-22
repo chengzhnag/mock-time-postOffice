@@ -16,3 +16,19 @@ export const sendExtractEmail = data => {
         data
     });
 };
+
+export const getPublicLetter = query => {  // 获取公开信列表
+    return request({
+        url: '/getPublicLetter',
+        method: 'get',
+        params: query
+    });
+};
+
+export const getAllLetter = query => {  // 获取所有邮件列表
+    return request({
+        url: '/getAllLetter',
+        method: 'get',
+        params: query
+    });
+};

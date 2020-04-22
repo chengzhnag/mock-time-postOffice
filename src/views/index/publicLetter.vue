@@ -1,80 +1,113 @@
 <template>
-    <div class="public-box">
-        <div class="alone" v-for="item in 5" :key="item">
-            <div class="message">
-                <a href="#" title="">投递人: 黄佳伟 87*******@qq.com</a>
-                <span>2019-11-19 12:44 寄往 2021-05-20 12:39</span>
-            </div>
-            <div class="content">
-                这是一封来自过去的我写给你的信，此时此刻的我坐在教室里听课，我们刚刚结束聊天。2020年2月23号的这天是个重要的日子，是你从这个世界走过的第23个年头
-            </div>
-        </div>
-        <div class="pagination">
-            <el-pagination background layout="prev, pager, next" :total="1000">
-            </el-pagination>
-        </div>
-    </div>
+	<div class="public-box">
+		<div class="alone" v-for="(item, index) in pageControl.list" :key="index">
+			<div class="message">
+				<a href="#" title="">投递人: {{ item.name }} {{ item.receiptEmail | hiddenEmail }}</a>
+				<span>{{ item.createTime | formatDate }} 寄往 {{ item.sendTime | formatDate }}</span>
+			</div>
+			<div class="content" v-html="item.content"><!-- {{item.content}} --></div>
+		</div>
+		<div class="pagination"><el-pagination @current-change="pageChange" background layout="prev, pager, next" :total="pageControl.total"></el-pagination></div>
+	</div>
 </template>
 <script>
-import {
-    Pagination
-} from 'element-ui';
+import { Pagination } from 'element-ui';
+import { getPublicLetter } from '@/api/index.js';
 export default {
-    components: {
-        [Pagination.name]: Pagination
-    },
-    data() {
-        return {
+	components: {
+		[Pagination.name]: Pagination
+	},
+	data() {
+		return {
+			pageControl: {
+				page: 1,
+				pageSize: 6,
+				list: [],
+				total: 0
+			}
+		};
+	},
 
-        };
-    },
+	beforeMount() {},
 
-    beforeMount() {},
+	mounted() {
+		this.loadData();
+	},
 
-    mounted() {},
-
-    methods: {},
-
-}
+	methods: {
+		loadData() {
+			let params = {
+				page: this.pageControl.page,
+				pageSize: this.pageControl.pageSize
+			};
+			const loading = this.$loading({
+				lock: true,
+				text: 'Loading',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			getPublicLetter(params)
+				.then(res => {
+					loading.close();
+					if (res.statusCode) {
+						this.pageControl.list = res.data;
+						this.pageControl.total = res.totalCount;
+					} else {
+						this.$message.error(res.message);
+					}
+				})
+				.catch(err => {
+					loading.close();
+					this.$message.error(err || '获取公开信列表失败, 请稍后重试!');
+				});
+		},
+		pageChange(e) {
+			console.log(e);
+			this.pageControl.page = e;
+			this.loadData();
+		}
+	}
+};
 </script>
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .public-box {
-    height: auto;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    margin: 30px 12% 30px 12%;
+	height: auto;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	margin: 30px 12% 30px 12%;
 
-    .alone {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        padding: 20px 40px;
-        border-bottom: 1px solid #000;
+	.alone {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		padding: 20px 40px;
+		border-bottom: 1px solid #000;
 
-        .message {
-            display: flex;
-            flex: 1;
-            margin-bottom: 30px;
-            font-size: 16px;
+		.message {
+			display: flex;
+			flex: 1;
+			margin-bottom: 30px;
+			font-size: 16px;
 
-            a {
-                color: #3498db;
-                word-wrap: break-word;
-                margin-right: 70px;
-            }
+			a {
+				color: #3498db;
+				word-wrap: break-word;
+				margin-right: 70px;
+			}
 
-            span {
-                font-weight: 500;
-            }
-        }
+			span {
+				font-weight: 500;
+			}
+		}
 
-        .content {}
-    }
+		.content {
+		}
+	}
 	.pagination {
 		width: 100%;
-        text-align: right;
-        margin-top: 24px;
+		text-align: right;
+		margin-top: 24px;
 	}
 }
 </style>

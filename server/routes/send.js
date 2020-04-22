@@ -2,7 +2,12 @@ var express = require('express');
 var router = express.Router();
 var CronJob = require('cron').CronJob;
 var Record = require('../models/record.js');
-const { sendEmail } = require('../utils/sendEmail');
+const {
+	sendEmail
+} = require('../utils/sendEmail');
+const {
+	localDate
+} = require('../utils/index');
 const {
 	v1: uuidv1
 } = require('uuid');
@@ -13,12 +18,15 @@ router.post('/', (req, res, next) => {
 		delete body.verificationCode;
 		// 把记录存进数据库
 		body.extractCode = uuidv1();
+		body.sendTime = localDate(body.sendTime);
+		body.createTime = localDate();
 		new Record(body).save((error, datas) => {
 			if (error) {
 				return res.send({
 					success: false,
 					statusCode: 0,
-					message: '保存记录失败'
+					message: '保存记录失败',
+					error: error
 				})
 			}
 			try {
@@ -60,7 +68,7 @@ router.post('/', (req, res, next) => {
 	}
 });
 
-router.get('/getcaptcha', function (req, res) {
+router.get('/getcaptcha', function(req, res) {
 	console.log(req.session);
 	res.status(200).send(req.session.captcha);
 });

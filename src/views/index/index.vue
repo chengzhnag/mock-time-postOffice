@@ -117,7 +117,7 @@ export default {
                 }]
             },
             editorOption: {},
-            imgSrc: process.env.VUE_APP_BASE_API + '/captcha'
+            imgSrc: process.env.VUE_APP_BASE_API + '/captcha?' + new Date().getTime()
         };
     },
 
@@ -195,7 +195,7 @@ export default {
         onEditorChange() {}, // 内容改变事件
         changeImg(e) {
             console.log(this.url);
-            this.imgSrc = this.url + '/captcha?' + Math.random();
+            this.imgSrc = this.url + '/captcha?' + new Date().getTime();
         },
         jointDate() {
             let q = dayjs(this.ruleForm.date1)
