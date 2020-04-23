@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 
 const sendEmail = function (body, success, fail) {
+	console.log('sendEmail: ', body);
     var transporter = nodemailer.createTransport({
         service: 'qq',
         auth: {

@@ -9,16 +9,17 @@ const {
 const {
 	sendEmail
 } = require('../utils/sendEmail');
+const questionData = require('../utils/question.js');
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.get('/', function(req, res, next) {
 	res.render('index', {
 		title: 'Express'
 	});
 });
 
 // 获取图形验证码图
-router.get('/captcha', function (req, res) {
+router.get('/captcha', function(req, res) {
 	var captcha = svgCaptcha.create();
 	req.session.captcha = captcha.text.toLocaleLowerCase();
 	res.type('svg');
@@ -26,7 +27,7 @@ router.get('/captcha', function (req, res) {
 });
 
 // 获取图形验证码图相对的text文本
-router.get('/getcaptcha', function (req, res) {
+router.get('/getcaptcha', function(req, res) {
 	res.status(200).send(req.session.captcha);
 });
 
@@ -34,7 +35,7 @@ router.get('/getcaptcha', function (req, res) {
 router.post('/extract', (req, res, next) => {
 	let body = req.body;
 	if (body.extract && body.receiptEmail) {
-		Record.findOne({
+		Record.find({
 			'extractCode': body.extract
 		}, (err, data) => {
 			if (data) {
@@ -50,28 +51,32 @@ router.post('/extract', (req, res, next) => {
 					<br/>
 					欢迎访问http://hi2future.com, 写给未来的Someone<br/>
 				`;
-				sendEmail(body, suc => {
-					return res.send({
-						success: true,
-						statusCode: 1,
-						message: `发送提取码邮件成功`
-					})
-				}, error => {
-					return res.send({
-						success: false,
-						statusCode: 0,
-						message: `发送提取码邮件失败`,
-						error: error
-					})
-				});
+				try {
+					sendEmail(body, suc => {
+						return res.send({
+							success: true,
+							statusCode: 1,
+							message: `发送提取码邮件成功`
+						})
+					}, error => {
+						return res.send({
+							success: false,
+							statusCode: 0,
+							message: `发送提取码邮件失败`,
+							error: error
+						})
+					});
+				} catch (e) {
+					console.log('e: ', e);
+				}
+			} else {
+				return res.send({
+					success: false,
+					statusCode: 0,
+					message: `根据${body.extract}查询失败`,
+					error: err
+				})
 			}
-			return res.send({
-				success: false,
-				statusCode: 0,
-				message: `根据${body.extract}查询失败`,
-				error: err
-			})
-
 		});
 	} else {
 		return res.send({
@@ -83,7 +88,7 @@ router.post('/extract', (req, res, next) => {
 })
 
 // 获取公开信列表
-router.get('/getPublicLetter', function (req, res) {
+router.get('/getPublicLetter', function(req, res) {
 	const {
 		page = 1, pageSize = 10
 	} = req.query;
@@ -91,8 +96,8 @@ router.get('/getPublicLetter', function (req, res) {
 		isPublic: true
 	}, (err, count) => {
 		Record.find({
-			isPublic: true
-		})
+				isPublic: true
+			})
 			.skip((parseInt(page, 10) - 1) * parseInt(pageSize, 10))
 			.limit(parseInt(pageSize, 10))
 			.sort({
@@ -128,7 +133,7 @@ router.get('/getPublicLetter', function (req, res) {
 });
 
 // 获取所有邮件列表
-router.get('/getAllLetter', function (req, res) {
+router.get('/getAllLetter', function(req, res) {
 	const {
 		page = 1, pageSize = 10
 	} = req.query;
@@ -209,6 +214,16 @@ router.post('/byExtractGetEmail', (req, res, next) => {
 	}
 })
 
+// 获取所有问题
+router.get('/getQuestion', function(req, res) {
+	return res.send({
+		success: true,
+		statusCode: 1,
+		message: `获取常见问题成功`,
+		data: questionData
+	})
+});
+
 function copyAndDelete(data, field) {
 	if (data && typeof data == 'object') {
 		let _data = JSON.parse(JSON.stringify(data));
@@ -226,7 +241,8 @@ function compareDate(date) {
 	let result = false;
 	if (date) {
 		let strap = new Date(date).getTime();
-		let nowStrap = localDateStrap();
+		// let nowStrap = localDateStrap();
+		let nowStrap = new Date().getTime();
 		if (nowStrap >= strap) {
 			result = true;
 		}

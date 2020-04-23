@@ -1,7 +1,7 @@
 <template>
 	<div class="letters-box">
 		<el-table :data="pageControl.list" class="table-box">
-			<el-table-column style="width: 100%" align="center" prop="name" label="姓名" width="120"></el-table-column>
+			<el-table-column style="width: 100%" align="center" prop="name" label="昵称" width="120"></el-table-column>
 			<el-table-column align="center" prop="receiptEmail" label="email地址" width="220"></el-table-column>
 			<el-table-column align="center" prop="createTime" label="创建时间" width="220"></el-table-column>
 			<el-table-column align="center" prop="sendTime" label="收信时间" width="220"></el-table-column>

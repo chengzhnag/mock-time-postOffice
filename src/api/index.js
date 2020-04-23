@@ -41,3 +41,11 @@ export const byExtractGetEmail = data => {
         data
     });
 };
+
+export const getQuestion = query => {  // 获取所有常见问题
+    return request({
+        url: '/getQuestion',
+        method: 'get',
+        params: query
+    });
+};
