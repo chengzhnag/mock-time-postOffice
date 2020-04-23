@@ -47,9 +47,9 @@ router.post('/extract', (req, res, next) => {
 					曾经的你, 或者是他, 或者是她,<br/>
 					寄出的那封时光邮件<br/>
 					提取码: <span style="font-weight: bold;">${data.extractCode}</span><br/>
-					提取地址: http://hi2future.com/Mail/key<br/>
+					提取地址: http://email.zsjustn.top/#/extract<br/>
 					<br/>
-					欢迎访问http://hi2future.com, 写给未来的Someone<br/>
+					欢迎访问http://email.zsjustn.top/, 写给未来的Someone<br/>
 				`;
 				try {
 					sendEmail(body, suc => {

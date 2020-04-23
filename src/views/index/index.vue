@@ -58,6 +58,9 @@ import {
     sendEmail
 } from '@/api/index.js';
 import dayjs from 'dayjs';
+import {
+    mixins
+} from '@/utils/mixins';
 export default {
     components: {
         [Form.name]: Form,
@@ -68,6 +71,7 @@ export default {
         [Checkbox.name]: Checkbox,
         quillEditor
     },
+    mixins: [mixins],
     data() {
         return {
             pickerOptions1: {
@@ -93,6 +97,9 @@ export default {
                 email: [{
                     required: true,
                     message: '请输入收件邮箱',
+                    trigger: 'blur'
+                }, {
+                    validator: this.validEmail,
                     trigger: 'blur'
                 }],
                 date1: [{
@@ -148,6 +155,10 @@ export default {
                             content: this.ruleForm.content,
                             verificationCode: this.ruleForm.verificationCode
                         };
+                        if (this.compareToNow(params.sendTime)) {
+                            this.$message('亲, 请选择未来时间发送!');
+                            return;
+                        }
                         const loading = this.$loading({
                             lock: true,
                             text: 'Loading',
@@ -205,6 +216,13 @@ export default {
                 .format('YYYY-MM-DD HH:mm:ss')
                 .split(' ')[1];
             return `${q} ${h}`;
+        },
+        compareToNow(date) {
+            let result = false;
+            if (date) {
+                new Date().getTime() > new Date(date).getTime() ? result = true : '';
+            }
+            return result;
         }
     }
 };

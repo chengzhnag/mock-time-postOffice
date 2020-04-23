@@ -33,10 +33,10 @@ router.post('/', (req, res, next) => {
 				// 创建定时任务
 				console.log(body.sendTime);
 				let date = new Date(body.sendTime);
-				new CronJob(date, () => {
+				var job = new CronJob(date, () => {
 					// 发送
 					console.log('body.sendTime: ', body.sendTime);
-					body.subject = `${body.name}通过时光邮局发送(https://www.hi2future.com/)`;
+					body.subject = `${body.name}通过时光邮局发送(http://email.zsjustn.top/)`;
 					sendEmail(body, suc => {
 						// 发送成功后更新记录状态
 						updateRecord(datas);
@@ -45,6 +45,7 @@ router.post('/', (req, res, next) => {
 						console.log('保存发送失败的记录到数据库');
 					});
 				}, null, true, 'America/Los_Angeles');
+				job.start();
 
 				return res.status(200).json({
 					success: true,
@@ -62,15 +63,23 @@ router.post('/', (req, res, next) => {
 			}
 		})
 	} else {
-		return res.status(200).json({
-			success: false,
-			statusCode: 0,
-			message: '验证码错误'
-		})
+		if (req.session.captcha) {
+			return res.status(200).json({
+				success: false,
+				statusCode: 0,
+				message: '验证码错误'
+			})
+		} else {
+			return res.status(200).json({
+				success: false,
+				statusCode: 0,
+				message: '验证码过期, 请点击重新获取'
+			})
+		}
 	}
 });
 
-router.get('/getcaptcha', function(req, res) {
+router.get('/getcaptcha', function (req, res) {
 	console.log(req.session);
 	res.status(200).send(req.session.captcha);
 });

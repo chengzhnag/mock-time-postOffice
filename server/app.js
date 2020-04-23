@@ -55,7 +55,7 @@ var sess = {
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000, secure: false }
+  cookie: { maxAge: 300000, secure: false }
 }
 app.use(session(sess))
 
