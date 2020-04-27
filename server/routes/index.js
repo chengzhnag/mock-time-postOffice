@@ -35,7 +35,7 @@ router.get('/getcaptcha', function(req, res) {
 router.post('/extract', (req, res, next) => {
 	let body = req.body;
 	if (body.extract && body.receiptEmail) {
-		Record.find({
+		Record.findOne({
 			'extractCode': body.extract
 		}, (err, data) => {
 			if (data) {
@@ -46,7 +46,7 @@ router.post('/extract', (req, res, next) => {
 					你将可以在我们的时光邮局手动提取<br/>
 					曾经的你, 或者是他, 或者是她,<br/>
 					寄出的那封时光邮件<br/>
-					提取码: <span style="font-weight: bold;">${data.extractCode}</span><br/>
+					提取码: <span style="font-weight: bold;"> ${data.extractCode || body.extract} </span> <br/>
 					提取地址: http://email.zsjustn.top/#/extract<br/>
 					<br/>
 					欢迎访问http://email.zsjustn.top/, 写给未来的Someone<br/>
