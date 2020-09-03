@@ -55,13 +55,18 @@ npm run build
 // pm2是一个进程管理工具,可以用它来管理你的node进程,并查看node进程的状态,当然也支持性能监控,进程守护,负载均衡等功能.
 
 在PM2管理器中添加一个进程
-项目所在根目录: /www/wwwroot/mock-time-postOffice/server/bin/  
+项目所在根目录: /www/wwwroot/mock-time-postOffice/server/public/  
 
 启动文件名称: www
 
 项目名称: 时光邮局 
 
 添加映射: email.zsjustn.top
+
+修改映射域名下的nginx配置, 添加以下代码
+location / {
+	proxy_pass http://127.0.0.1:3000;
+}
 
 ```
 
