@@ -19,7 +19,7 @@ src     // vue前端页面
 
 
 ---
-> 使用说明
+## linux部署
 1. 克隆代码到本地
 
 ```
@@ -48,12 +48,26 @@ ps: 后端接口默认端口3000
 
 ```
 // mock-time-postOffice目录下运行
-npm run serve
+npm run build
 
-// mock-time-postOffice/server目录下运行
-npm start
+// 本人使用的是linux环境, 使用PM2进行node项目部署
+
+// pm2是一个进程管理工具,可以用它来管理你的node进程,并查看node进程的状态,当然也支持性能监控,进程守护,负载均衡等功能.
+
+在PM2管理器中添加一个进程
+项目所在根目录: /www/wwwroot/mock-time-postOffice/server/bin/  
+
+启动文件名称: www
+
+项目名称: 时光邮局 
+
+添加映射: email.zsjustn.top
 
 ```
+
+
+
+
 
 > 结束语
 
