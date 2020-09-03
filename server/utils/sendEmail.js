@@ -6,7 +6,7 @@ const sendEmail = function (body, success, fail) {
         service: 'qq',
         auth: {
             user: '1772591173@qq.com',
-            pass: 'vnqddpydogiibdad' //授权码,通过QQ获取
+            pass: 'eyebtxkwfciyjgfd' //授权码,通过QQ获取
         }
     });
     var mailOptions = {
