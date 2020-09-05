@@ -108,6 +108,7 @@ export default {
             height: 200px;
             background: url('https://www.hi2future.com/Public/me2me/image/header.jpg') no-repeat center center;
             background-size: cover;
+            overflow: hidden;
 
             span {
                 position: absolute;
