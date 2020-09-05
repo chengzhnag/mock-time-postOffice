@@ -65,6 +65,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "./styles/responsive.scss";
+
 #app {
     width: 100%;
     height: 100%;
@@ -77,23 +78,23 @@ export default {
     flex-direction: column;
 
     .header {
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
         width: 100%;
         height: auto;
-		padding-top: 50px;
+        padding-top: 50px;
 
         .menu-box {
-			position: fixed;
-			top: 0;
-			left: 0;
-			z-index: 1001;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1001;
             display: flex;
             justify-content: center;
             align-items: center;
             border: none;
-			width: 100%;
+            width: 100%;
             height: 50px;
 
             .menu-item {
@@ -105,9 +106,12 @@ export default {
         .bg-box {
             position: relative;
             width: 100%;
-            height: 200px;
-            background: url('https://www.hi2future.com/Public/me2me/image/header.jpg') no-repeat center center;
-            background-size: cover;
+            // height: 200px;
+            background: url('https://www.hi2future.com/Public/me2me/image/header.jpg');
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            padding-top: 27%;
+            height: 0px;
             overflow: hidden;
 
             span {
@@ -115,11 +119,13 @@ export default {
                 top: 16%;
                 right: 12%;
                 color: #fff;
-                font-size: 40px;
+                font-size: 36px;
                 font-weight: 300;
                 letter-spacing: 5px;
                 text-shadow: 1px 1px 1px #000;
             }
+
+            // &::before{content: ""; display: block; padding-top: 100%;}
         }
     }
 
@@ -133,7 +139,7 @@ export default {
         width: 100%;
         height: 40px;
         text-align: center;
-		line-height: 40px;
+        line-height: 40px;
     }
 }
 

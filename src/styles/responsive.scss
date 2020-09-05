@@ -2,12 +2,15 @@ $screen-sm-min: 320px;
 $screen-sm-max: 768px;
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
   .el-menu {
-    // display: none !important;
     overflow-x: scroll !important;
     justify-content: flex-start !important;
   }
   .header {
-    // padding-top: 0 !important;
+    .bg-box {
+      span {
+        font-size: 18px !important;
+      }
+    }
   }
   .index-box {
     /deep/ .el-form {
