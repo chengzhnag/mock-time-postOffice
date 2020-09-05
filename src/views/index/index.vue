@@ -1,32 +1,32 @@
 <template>
 <div class="index-box">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="190px" size="small" label-position="left" class="demo-ruleForm">
-        <el-form-item label="您的昵称" prop="name">
+        <el-form-item class="media-mobile" label="您的昵称" prop="name">
             <el-input v-model="ruleForm.name" placeholder="请填写昵称, 将在邮件的标题中出现"></el-input>
         </el-form-item>
-        <el-form-item label="收件邮箱" prop="email">
+        <el-form-item class="media-mobile" label="收件邮箱" prop="email">
             <el-input v-model="ruleForm.email" placeholder="可以是你自己, 或是任何一个你想倾诉的人. 填写TA的邮箱地址, 形如 abc@163.com"></el-input>
         </el-form-item>
-        <el-form-item label="发信时间" required>
+        <el-form-item class="media-mobile" label="发信时间" required>
             <el-col :span="11">
-                <el-form-item prop="date1">
+                <el-form-item class="not-media-mobile" prop="date1">
                     <el-date-picker :picker-options="pickerOptions1" type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
                 </el-form-item>
             </el-col>
             <el-col class="line" :span="2">-</el-col>
             <el-col :span="11">
-                <el-form-item prop="date2">
+                <el-form-item class="not-media-mobile" prop="date2">
                     <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
                 </el-form-item>
             </el-col>
         </el-form-item>
-        <el-form-item label="是否公开" prop="type">
+        <el-form-item class="media-mobile" label="是否公开" prop="type">
             <el-checkbox label="选中后, 信的内容将在&quot;公开信&quot;中展示, 所有人都可以浏览和评论" v-model="ruleForm.public"></el-checkbox>
         </el-form-item>
         <div class="edit_container">
             <quill-editor v-model="ruleForm.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @change="onEditorChange($event)"></quill-editor>
         </div>
-        <el-form-item>
+        <el-form-item class="not-media-mobile">
             <div class="verification-box">
                 <img style="margin-right: 20px;" :src="imgSrc" @click="changeImg" />
                 <el-form-item prop="verificationCode">

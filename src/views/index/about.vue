@@ -1,6 +1,6 @@
 <template>
 <div class="about-box">
-    <img src="//staticv2.hi2future.com/me2me/about.png" alt="">
+    <img src="../../assets/img/about.png" alt="">
 </div>
 </template>
 

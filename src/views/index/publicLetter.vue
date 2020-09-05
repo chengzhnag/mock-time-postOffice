@@ -2,7 +2,7 @@
 <div class="public-box">
     <div class="alone" v-for="(item, index) in pageControl.list" :key="index">
         <div class="message">
-            <a href="#" title="">投递人: {{ item.name }} {{ item.receiptEmail | hiddenEmail }}</a>
+            <span class="a">投递人: {{ item.name }} {{ item.receiptEmail | hiddenEmail }}</span>
             <span>{{ item.createTime | formatDate }} 寄往 {{ item.sendTime | formatDate }}</span>
         </div>
         <div class="content" v-html="item.content">
@@ -107,7 +107,7 @@ export default {
             margin-bottom: 30px;
             font-size: 16px;
 
-            a {
+            .a {
                 color: #3498db;
                 word-wrap: break-word;
                 margin-right: 70px;

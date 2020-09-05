@@ -1,0 +1,101 @@
+$screen-sm-min: 320px;
+$screen-sm-max: 768px;
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  .el-menu {
+    // display: none !important;
+    overflow-x: scroll !important;
+    justify-content: flex-start !important;
+  }
+  .header {
+    // padding-top: 0 !important;
+  }
+  .index-box {
+    /deep/ .el-form {
+      padding: 30px 3% 0 3% !important;
+      .el-form-item__label {
+        width: 100px !important;
+      }
+      .media-mobile {
+        .el-form-item__content {
+          margin-left: 100px !important;
+        }
+        .el-checkbox {
+          display: flex;
+          .el-checkbox__input {
+            padding-top: 4px;
+          }
+          .el-checkbox__label {
+            white-space: normal !important;
+          }
+        }
+      }
+      .not-media-mobile {
+        .el-form-item__content {
+          margin-left: 0 !important;
+        }
+      }
+      .verification-box {
+        img {
+          width: 90px !important;
+        }
+        .el-input {
+          width: 100px !important;
+        }
+        .el-button {
+          width: 60px !important;
+        }
+      }
+    }
+  }
+  /deep/ .public-box {
+    margin: 10px 3% 0 3% !important;
+    .alone {
+      padding: 0 !important;
+      .message {
+        font-size: 12px !important;
+        margin-bottom: 16px !important;
+        margin-top: 20px !important;
+        .a {
+          margin-right: 20px !important;
+        }
+      }
+      .content {
+        margin-bottom: 16px !important;
+      }
+    }
+  }
+  /deep/ .letters-box {
+    margin: 10px 3% 0 3% !important;
+    td {
+      font-size: 12px !important;
+    }
+  }
+  /deep/ .extract-box {
+    .el-form {
+      padding: 30px 3% 0 3% !important;
+      .el-form-item {
+        display: flex;
+        flex-direction: column;
+      }
+      .el-form-item__label {
+        width: auto !important;
+        margin-bottom: 10px !important;
+      }
+      .el-form-item__content {
+        margin-left: 0 !important;
+      }
+    }
+  }
+  /deep/ .about-box {
+    margin: 10px 3% 0 3% !important;
+  }
+  /deep/ .faq-box {
+    margin: 10px 4% 0 4% !important;
+    .like {
+      .title,
+      .content {
+        font-size: 14px !important;
+      }
+    }
+  }
+}

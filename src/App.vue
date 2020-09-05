@@ -64,6 +64,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "./styles/responsive.scss";
 #app {
     width: 100%;
     height: 100%;
