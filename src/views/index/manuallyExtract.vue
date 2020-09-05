@@ -9,6 +9,7 @@
                 <el-button style="width: 120px;" type="primary" @click="extract('ruleForm')">我要提取</el-button>
             </el-form-item>
         </el-form>
+        <div class="tips">导航栏向右滑动还有关注我们的故事☞☞☞</div>
     </div>
     <div v-else class="message-box">
         <span>
@@ -234,6 +235,15 @@ export default {
 
     .send-success {
         margin-top: 10px;
+    }
+
+    .tips {
+        display: none;
+        font-size: 14px;
+        color: #f00;
+        padding: 0 3%;
+        margin-top: 50px;
+        text-align: center;
     }
 }
 </style>

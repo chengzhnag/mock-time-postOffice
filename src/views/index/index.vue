@@ -7,7 +7,7 @@
         <el-form-item class="media-mobile" label="收件邮箱" prop="email">
             <el-input v-model="ruleForm.email" placeholder="可以是你自己, 或是任何一个你想倾诉的人. 填写TA的邮箱地址, 形如 abc@163.com"></el-input>
         </el-form-item>
-        <el-form-item class="media-mobile" label="发信时间" required>
+        <el-form-item class="media-mobile media-date-time" label="发信时间" required>
             <el-col :span="11">
                 <el-form-item class="not-media-mobile" prop="date1">
                     <el-date-picker :picker-options="pickerOptions1" type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>

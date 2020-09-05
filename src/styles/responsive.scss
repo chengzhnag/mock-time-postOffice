@@ -7,6 +7,9 @@ $screen-sm-max: 768px;
   }
   .header {
     .bg-box {
+      img {
+        object-fit: contain !important;
+      }
       span {
         font-size: 18px !important;
       }
@@ -30,6 +33,13 @@ $screen-sm-max: 768px;
           .el-checkbox__label {
             white-space: normal !important;
           }
+        }
+      }
+      .media-date-time {
+        display: flex;
+        flex-direction: column;
+        .el-form-item__content {
+          margin-left: 0 !important;
         }
       }
       .not-media-mobile {
@@ -87,6 +97,15 @@ $screen-sm-max: 768px;
       .el-form-item__content {
         margin-left: 0 !important;
       }
+    }
+    .message-box {
+      padding: 20px 3% 0 3% !important;
+      .el-form-item {
+        width: 100% !important;
+      }
+    }
+    .tips {
+      display: block !important;
     }
   }
   /deep/ .about-box {

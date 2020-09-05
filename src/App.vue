@@ -11,6 +11,7 @@
                 <el-menu-item class="menu-item" index="/faq">常见问题</el-menu-item>
             </el-menu>
             <div class="bg-box">
+                <img src="https://www.hi2future.com/Public/me2me/image/header.jpg" alt="">
                 <span>时光邮局</span>
             </div>
         </div>
@@ -106,13 +107,13 @@ export default {
         .bg-box {
             position: relative;
             width: 100%;
-            // height: 200px;
-            background: url('https://www.hi2future.com/Public/me2me/image/header.jpg');
-            background-repeat: no-repeat;
-            background-size: 100% auto;
-            padding-top: 27%;
-            height: 0px;
             overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
             span {
                 position: absolute;
