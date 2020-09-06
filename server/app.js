@@ -62,6 +62,8 @@ app.use(session(sess))
 app.use('/', indexRouter);
 app.use('/send', sendRouter);
 
+require('./utils/initCronnJob'); // 初始化创建定时任务
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
