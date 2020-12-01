@@ -5,12 +5,12 @@ const sendEmail = function (body, success, fail) {
     var transporter = nodemailer.createTransport({
         service: 'qq',
         auth: {
-            user: '1772591173@qq.com',
-            pass: 'eyebtxkwfciyjgfd' //授权码,通过QQ获取
+            user: _config.email,
+            pass: _config.authCode //授权码,通过QQ获取
         }
     });
     var mailOptions = {
-        from: '1772591173@qq.com', // 发送者
+        from: _config.email, // 发送者
         to: body.receiptEmail, // 接受者,可以同时发送多个,以逗号隔开
         subject: body.subject, // 标题
         //text: 'Hello world', // 文本

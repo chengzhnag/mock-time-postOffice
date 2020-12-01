@@ -6,13 +6,19 @@ var logger = require('morgan');
 var ejs = require('ejs');
 var session = require("express-session");
 const mongoose = require('mongoose');
+const config = require('./config/default.js');
+
+// 全局config
+global._config = config;
 
 var indexRouter = require('./routes/index');
 var sendRouter = require('./routes/send');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/zs', {
+process.env.PORT = config.port;
+
+mongoose.connect(_config.mongodbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

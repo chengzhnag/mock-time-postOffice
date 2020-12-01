@@ -21,7 +21,7 @@ function createCron(body) {
     let date = new Date(body.sendTime);
     var job = new CronJob(date, () => {
         // 发送
-        body.subject = `${body.name}通过时光邮局发送(http://email.zsjustn.top/)`;
+        body.subject = `${body.name}通过时光邮局发送(${_config.domainName}/)`;
         sendEmail(body, suc => {
             // 发送成功后更新记录状态
             updateRecord(body);
