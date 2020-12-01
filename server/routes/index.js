@@ -87,6 +87,14 @@ router.post('/extract', (req, res, next) => {
 	}
 })
 
+router.post('/nihao', (req, res, next) => {
+	return res.send({
+		success: true,
+		statusCode: 1,
+		message: `test`
+	})
+})
+
 // 获取公开信列表
 router.get('/getPublicLetter', function(req, res) {
 	const {
