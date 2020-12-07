@@ -11,7 +11,7 @@
                 <el-menu-item class="menu-item" index="/faq">常见问题</el-menu-item>
             </el-menu>
             <div class="bg-box">
-                <img src="https://www.hi2future.com/Public/me2me/image/header.jpg" alt="">
+				<img src="./assets/img/header3.jpg" alt="">
                 <span>时光邮局</span>
             </div>
         </div>
