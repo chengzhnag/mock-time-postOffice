@@ -9,5 +9,7 @@ module.exports = {
 		需要登录qq邮箱进入设置, 开启POP3/SMTP服务. 具体可百度
 	 */
 	email: '1772591173@qq.com', //邮箱地址 
-	authCode: 'eyebtxkwfciyjgfd'  // 授权码, qq邮箱配置获取
+	authCode: 'eyebtxkwfciyjgfd',  // 授权码, qq邮箱配置获取
+	emails: ['1772591173@qq.com', '2653584289@qq.com'], // 配置多个邮箱地址
+	authCode: ['eyebtxkwfciyjgfd', 'oejnbfchsyhvdjjh']  // 对应配置多个授权码
 }
