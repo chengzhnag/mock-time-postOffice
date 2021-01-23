@@ -11,5 +11,5 @@ module.exports = {
 	email: '1772591173@qq.com', //邮箱地址 
 	authCode: 'eyebtxkwfciyjgfd',  // 授权码, qq邮箱配置获取
 	emails: ['1772591173@qq.com', '2653584289@qq.com'], // 配置多个邮箱地址
-	authCode: ['eyebtxkwfciyjgfd', 'oejnbfchsyhvdjjh']  // 对应配置多个授权码
+	authCodes: ['eyebtxkwfciyjgfd', 'oejnbfchsyhvdjjh']  // 对应配置多个授权码
 }
