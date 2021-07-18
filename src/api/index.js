@@ -49,3 +49,11 @@ export const getQuestion = query => {  // 获取所有常见问题
         params: query
     });
 };
+
+export const sendEmailTips = data => {
+    return request({
+        url: '/tips',
+        method: 'post',
+        data
+    });
+};

@@ -51,7 +51,15 @@ const routes = [{
 	meta: {
 		title: '联系邮递员大叔'
 	}
-}]
+}, {
+	path: '/tips',
+	name: 'tips',
+	component: () =>
+		import ( /* webpackChunkName: "tips" */ '../views/index/tips.vue'),
+	meta: {
+		title: '循环提示'
+	}
+},]
 
 const router = new VueRouter({
 	routes
