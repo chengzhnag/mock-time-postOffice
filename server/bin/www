@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
+const os = require('os');
 
 /**
  * Get port from environment and store in Express.
@@ -49,6 +50,20 @@ function normalizePort(val) {
   return false;
 }
 
+///获取本机ip///
+function getIPAdress() {
+  var interfaces = os.networkInterfaces();
+  for (var devName in interfaces) {
+    var iface = interfaces[devName];
+    for (var i = 0; i < iface.length; i++) {
+      var alias = iface[i];
+      if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+        return alias.address;
+      }
+    }
+  }
+}
+
 /**
  * Event listener for HTTP server "error" event.
  */
@@ -83,6 +98,7 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
+  console.log(`address is http://${getIPAdress()}:${addr.port}`);
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;

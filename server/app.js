@@ -13,6 +13,7 @@ global._config = config;
 
 var indexRouter = require('./routes/index');
 var sendRouter = require('./routes/send');
+var tipsRouter = require('./routes/tips');
 
 var app = express();
 
@@ -67,6 +68,7 @@ app.use(session(sess))
 
 app.use('/', indexRouter);
 app.use('/send', sendRouter);
+app.use('/tips', tipsRouter);
 
 require('./utils/initCronnJob'); // 初始化创建定时任务
 
