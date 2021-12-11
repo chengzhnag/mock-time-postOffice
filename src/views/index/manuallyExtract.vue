@@ -26,7 +26,7 @@
         <span>为确保收到我们的时光信,</span>
         <span>
             最好将
-            <span class="error-msg">1772591173@qq.com</span>
+            <span class="error-msg">{{ configEamil }}</span>
             放入邮箱白名单哦 ^_^
         </span>
         <el-form :model="sendForm" ref="sendForm" :rules="sendRules" size="small" label-position="left" class="send-success">
@@ -48,7 +48,8 @@ import {
 } from 'element-ui';
 import {
     sendExtractEmail,
-    byExtractGetEmail
+    byExtractGetEmail,
+    getEmail
 } from '@/api/index.js';
 import {
     mixins
@@ -89,7 +90,8 @@ export default {
             },
             extractCode: '',
             countDown: 100,
-            interval: null
+            interval: null,
+            configEamil: '***'
         };
     },
 
@@ -99,6 +101,9 @@ export default {
         let _data = this.$storage.read('email-data');
         console.log(_data);
         if (_data) {
+            getEmail().then(res=> {
+                this.configEamil = res.data || '***';
+            })
             this.isSendSuccess = true;
             this.extractCode = _data['extractCode'] || '';
             this.sendForm.email = _data['receiptEmail'] || '';

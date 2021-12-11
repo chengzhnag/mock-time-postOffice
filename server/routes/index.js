@@ -232,6 +232,16 @@ router.get('/getQuestion', function(req, res) {
 	})
 });
 
+// 获取配置文件中email
+router.get('/getEmail', function(req, res) {
+	return res.send({
+		success: true,
+		statusCode: 1,
+		message: `获取成功`,
+		data: _config.email
+	})
+});
+
 function copyAndDelete(data, field) {
 	if (data && typeof data == 'object') {
 		let _data = JSON.parse(JSON.stringify(data));

@@ -50,6 +50,14 @@ export const getQuestion = query => {  // 获取所有常见问题
     });
 };
 
+export const getEmail = query => {  // 获取配置文件Email
+    return request({
+        url: '/getEmail',
+        method: 'get',
+        params: query
+    });
+};
+
 export const sendEmailTips = data => {
     return request({
         url: '/tips',
