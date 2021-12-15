@@ -113,6 +113,14 @@ export default {
                     required: true,
                     message: '请选择时间',
                     trigger: 'change'
+                }, {
+                    validator: (rule, time, callback) => {
+                        if (new Date(time).getTime() < new Date().getTime()) {
+                            callback(new Error('必须大于当前时间'));
+                        }
+                        callback();
+                    },
+                    trigger: 'submit'
                 }],
                 type: [{
                     required: false
