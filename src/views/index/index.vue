@@ -36,6 +36,9 @@
             </div>
         </el-form-item>
     </el-form>
+    <el-upload name="photo" style="display: none;" :show-upload-list="false" :on-success="handleSuccess" :format="['jpg','jpeg','png','gif']" :action="`${this.url}/profile`">
+        <el-button size="small" ref="photoUpload" type="primary">点击上传</el-button>
+    </el-upload>
 </div>
 </template>
 
@@ -46,11 +49,18 @@ import {
     DatePicker,
     TimePicker,
     Col,
-    Checkbox
+    Checkbox,
+    Upload
 } from 'element-ui';
 import {
+    Quill,
     quillEditor
 } from 'vue-quill-editor'; //调用编辑器
+// 引入emoji表情
+import * as quillEmoji from 'quill-emoji';
+import 'quill-emoji/dist/quill-emoji.css';
+
+Quill.register('modules/quillEmoji', quillEmoji);
 import 'quill/dist/quill.core.css';
 import 'quill/dist/quill.snow.css';
 import 'quill/dist/quill.bubble.css';
@@ -69,6 +79,7 @@ export default {
         [TimePicker.name]: TimePicker,
         [Col.name]: Col,
         [Checkbox.name]: Checkbox,
+        [Upload.name]: Upload,
         quillEditor
     },
     mixins: [mixins],
@@ -131,7 +142,71 @@ export default {
                     trigger: 'blur'
                 }]
             },
-            editorOption: {},
+            editorOption: {
+                modules: {
+                    "emoji-toolbar": true,
+                    "emoji-shortname": true,
+                    toolbar: {
+                        container: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['blockquote', 'code-block'],
+                            [{
+                                'header': 1
+                            }, {
+                                'header': 2
+                            }],
+                            [{
+                                'list': 'ordered'
+                            }, {
+                                'list': 'bullet'
+                            }],
+                            [{
+                                'script': 'sub'
+                            }, {
+                                'script': 'super'
+                            }],
+                            [{
+                                'indent': '-1'
+                            }, {
+                                'indent': '+1'
+                            }],
+                            [{
+                                'direction': 'rtl'
+                            }],
+                            [{
+                                'size': ['small', false, 'large', 'huge']
+                            }],
+                            [{
+                                'header': [1, 2, 3, 4, 5, 6, false]
+                            }],
+                            [{
+                                'font': []
+                            }],
+                            [{
+                                'color': []
+                            }, {
+                                'background': []
+                            }],
+                            [{
+                                'align': []
+                            }],
+                            ['clean'],
+                            ['link', 'image', 'video', 'emoji']
+                        ],
+                        handlers: {
+                            'image': function (value) {
+                                console.log(value);
+                                if (value) {
+                                    // 调用iview图片上传
+                                    document.querySelector('.el-upload .el-button').click()
+                                } else {
+                                    this.quill.format('image', false);
+                                }
+                            }
+                        }
+                    },
+                }
+            },
             imgSrc: process.env.VUE_APP_BASE_API + '/captcha?' + new Date().getTime()
         };
     },
@@ -231,6 +306,20 @@ export default {
                 new Date().getTime() > new Date(date).getTime() ? result = true : '';
             }
             return result;
+        },
+        handleSuccess(res) {
+            console.log(res);
+            if (res.statusCode) {
+                let quill = this.$refs.myQuillEditor.quill
+                // 获取光标所在位置
+                let length = quill.getSelection().index;
+                // 插入图片，res为服务器返回的图片链接地址
+                quill.insertEmbed(length, 'image', `${this.url || location.origin}/${res.data.filename}`)
+                // 调整光标到最后
+                quill.setSelection(length + 1)
+            } else {
+                this.$message.error('图片插入失败');
+            }
         }
     }
 };

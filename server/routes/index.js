@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var svgCaptcha = require('svg-captcha');
+const multer = require('multer')
 var Record = require('../models/record.js');
 const dtime = require('time-formater');
 const {
@@ -11,15 +12,28 @@ const {
 } = require('../utils/sendEmail');
 const questionData = require('../utils/question.js');
 
+const storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+		cb(null, 'uploads/')
+	},
+	filename: function (req, file, cb) {
+		var fileFormat = (file.originalname).split(".");
+		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+		cb(null, file.fieldname + '-' + uniqueSuffix + "." + fileFormat[fileFormat.length - 1])
+	}
+})
+
+const upload = multer({ storage })
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
 	res.render('index', {
 		title: 'Express'
 	});
 });
 
 // 获取图形验证码图
-router.get('/captcha', function(req, res) {
+router.get('/captcha', function (req, res) {
 	var captcha = svgCaptcha.create();
 	req.session.captcha = captcha.text.toLocaleLowerCase();
 	res.type('svg');
@@ -27,7 +41,7 @@ router.get('/captcha', function(req, res) {
 });
 
 // 获取图形验证码图相对的text文本
-router.get('/getcaptcha', function(req, res) {
+router.get('/getcaptcha', function (req, res) {
 	res.status(200).send(req.session.captcha);
 });
 
@@ -96,7 +110,7 @@ router.post('/nihao', (req, res, next) => {
 })
 
 // 获取公开信列表
-router.get('/getPublicLetter', function(req, res) {
+router.get('/getPublicLetter', function (req, res) {
 	const {
 		page = 1, pageSize = 10
 	} = req.query;
@@ -104,8 +118,8 @@ router.get('/getPublicLetter', function(req, res) {
 		isPublic: true
 	}, (err, count) => {
 		Record.find({
-				isPublic: true
-			})
+			isPublic: true
+		})
 			.skip((parseInt(page, 10) - 1) * parseInt(pageSize, 10))
 			.limit(parseInt(pageSize, 10))
 			.sort({
@@ -141,7 +155,7 @@ router.get('/getPublicLetter', function(req, res) {
 });
 
 // 获取所有邮件列表
-router.get('/getAllLetter', function(req, res) {
+router.get('/getAllLetter', function (req, res) {
 	const {
 		page = 1, pageSize = 10
 	} = req.query;
@@ -223,7 +237,7 @@ router.post('/byExtractGetEmail', (req, res, next) => {
 })
 
 // 获取所有问题
-router.get('/getQuestion', function(req, res) {
+router.get('/getQuestion', function (req, res) {
 	return res.send({
 		success: true,
 		statusCode: 1,
@@ -233,7 +247,7 @@ router.get('/getQuestion', function(req, res) {
 });
 
 // 获取配置文件中email
-router.get('/getEmail', function(req, res) {
+router.get('/getEmail', function (req, res) {
 	return res.send({
 		success: true,
 		statusCode: 1,
@@ -241,6 +255,18 @@ router.get('/getEmail', function(req, res) {
 		data: _config.email
 	})
 });
+
+// 图片上传
+router.post('/profile', upload.single('photo'), function (req, res) {
+	// req.file is the `avatar` file
+	// req.body will hold the text fields, if there were any
+	return res.send({
+		success: true,
+		statusCode: 1,
+		message: `图片上传成功`,
+		data: req.file
+	})
+})
 
 function copyAndDelete(data, field) {
 	if (data && typeof data == 'object') {

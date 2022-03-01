@@ -11,6 +11,7 @@
     "core-js": "^3.3.2",
     "dayjs": "^1.8.24",
     "element-ui": "^2.12.0",
+    "quill-emoji": "^0.2.0",
     "vue": "^2.6.10",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.1.3"
@@ -19,7 +20,7 @@
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "babel-plugin-component": "^1.1.1",
-    "node-sass": "^7.0.1",
+    "node-sass": "^4.14",
     "sass-loader": "^8.0.0",
     "vue-template-compiler": "^2.6.10"
   },
