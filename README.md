@@ -31,6 +31,21 @@ cd server
 // 安装服务端使用的依赖包
 npm i
 ```
+tips：关于node-sass依赖包安装失败问题，可参考官方给出的版本对应。目前项目中使用的"node-sass": "^4.14"，对应node版本v14.*。
+也可以按照你本地的node版本修改package.json中的node-sass依赖包版本  
+NodeJS  | Supported node-sass version | Node Module
+--------|-----------------------------|------------
+Node 17 | 7.0+                        | 102
+Node 16 | 6.0+                        | 93
+Node 15 | 5.0+, <7.0                 | 88
+Node 14 | 4.14+                       | 83
+Node 13 | 4.13+, <5.0                 | 79
+Node 12 | 4.12+                       | 72
+Node 11 | 4.10+, <5.0                 | 67
+Node 10 | 4.9+, <6.0                  | 64
+Node 8  | 4.5.3+, <5.0                | 57
+Node <8 | <5.0                        | <57
+
 **安装完依赖包之后，我们可以尝试一下开启服务，在/www/wwwroot/mock-time-postOffice/server目录下执行以下命令**
 ```
 node ./bin/www
