@@ -10,7 +10,7 @@ const sendEmail = function (body, success, fail) {
         }
     });
     var mailOptions = {
-        from: _config.email, // 发送者
+        from: `"${_config.sendPeopleName}" <${_config.email}>`, // 发送者
         to: body.receiptEmail, // 接受者,可以同时发送多个,以逗号隔开
         subject: body.subject, // 标题
         //text: 'Hello world', // 文本
