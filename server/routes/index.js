@@ -101,14 +101,6 @@ router.post('/extract', (req, res, next) => {
 	}
 })
 
-router.post('/nihao', (req, res, next) => {
-	return res.send({
-		success: true,
-		statusCode: 1,
-		message: `test`
-	})
-})
-
 // 获取公开信列表
 router.get('/getPublicLetter', function (req, res) {
 	const {
@@ -154,7 +146,7 @@ router.get('/getPublicLetter', function (req, res) {
 	})
 });
 
-// 获取所有邮件列表
+// 获取所有邮件列表不包括内容
 router.get('/getAllLetter', function (req, res) {
 	const {
 		page = 1, pageSize = 10
@@ -175,6 +167,64 @@ router.get('/getAllLetter', function (req, res) {
 							totalCount: count,
 							message: `获取列表数据成功`,
 							data: copyAndDelete(doc, 'extractCode,content,isPublic,_id')
+						})
+					}
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `获取列表数据失败`,
+						error: err
+					})
+				} catch (e) {
+					return res.send({
+						success: false,
+						statusCode: 0,
+						message: `发生错误`,
+						error: e
+					})
+				}
+			})
+	})
+});
+
+// 获取所有邮件列表包括内容
+router.get('/getAllLetter_v2', function (req, res) {
+	const {
+		page = 1, pageSize = 10,
+		receiptEmail,
+		extractCode,
+		status,
+		name,
+		isPublic,
+	} = req.query;
+	const params = {
+		receiptEmail,
+		extractCode,
+		status,
+		name,
+		isPublic,
+	};
+	Object.keys(params).forEach(key => {
+		if (!params[key]) {
+			delete params[key];
+		}
+	});
+	Record.count(params, (err, count) => {
+		Record.find(params)
+			.skip((parseInt(page, 10) - 1) * parseInt(pageSize, 10))
+			.limit(parseInt(pageSize, 10))
+			.sort({
+				'_id': -1
+			})
+			.exec((err, doc) => {
+				try {
+					if (!err && doc) {
+						return res.send({
+							success: true,
+							statusCode: 1,
+							totalCount: count,
+							message: `获取列表数据成功`,
+							data: doc
 						})
 					}
 					return res.send({
