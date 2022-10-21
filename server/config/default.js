@@ -11,4 +11,6 @@ module.exports = {
 	email: '1772591173@qq.com', //邮箱地址 
 	authCode: 'eyebtxkwfciyjgfd',  // 授权码, qq邮箱配置获取
 	sendPeopleName: '我就是嚣张啊 👻', // 发件人名称
+	adminAccount: 'zs', // 管理员账号
+	adminPassword: '123456', // 管理员密码
 }
