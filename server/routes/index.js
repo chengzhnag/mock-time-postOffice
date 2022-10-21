@@ -189,6 +189,13 @@ router.get('/getAllLetter', function (req, res) {
 
 // 获取所有邮件列表包括内容
 router.get('/getAllLetter_v2', function (req, res) {
+	if (!req.session.loginTime) {
+		return res.send({
+			success: false,
+			statusCode: 0,
+			message: `未登录无法获取数据`,
+		})
+	}
 	const {
 		page = 1, pageSize = 10,
 		receiptEmail,
@@ -244,6 +251,28 @@ router.get('/getAllLetter_v2', function (req, res) {
 			})
 	})
 });
+
+// 管理员登录
+router.post('/adminLogin', (req, res, next) => {
+	const { account, password } = req.body;
+	// 如果账号密码相同，登录成功，并且种session
+	if (account === _config.adminAccount && password === _config.adminPassword) {
+		req.session.loginTime = new Date().getTime();
+		return res.send({
+			success: true,
+			statusCode: 1,
+			message: `登录成功`,
+			data: true
+		})
+	} else {
+		return res.send({
+			success: false,
+			statusCode: 0,
+			message: `账号密码出错，请重试`,
+			data: false
+		})
+	}
+})
 
 // 通过提取码提取邮件
 router.post('/byExtractGetEmail', (req, res, next) => {
