@@ -4,7 +4,7 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-import '@/styles/index.scss' // global css
+import '@/styles/index.less' // global css
 import storage from "./utils/localstorage";
 import dayjs from 'dayjs';
 import {

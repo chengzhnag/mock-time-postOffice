@@ -59,6 +59,22 @@ const routes = [{
 	meta: {
 		title: '循环提示'
 	}
+},{
+	path: '/admin/login',
+	name: 'login',
+	component: () =>
+		import ( /* webpackChunkName: "login" */ '../views/admin/login.vue'),
+	meta: {
+		title: '管理员登陆'
+	}
+},{
+	path: '/admin/list',
+	name: 'adminList',
+	component: () =>
+		import ( /* webpackChunkName: "adminList" */ '../views/admin/list.vue'),
+	meta: {
+		title: '邮件列表'
+	}
 },]
 
 const router = new VueRouter({

@@ -210,7 +210,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .extract-box {
     width: 100%;
     height: auto;

@@ -65,3 +65,19 @@ export const sendEmailTips = data => {
         data
     });
 };
+
+export const adminLogin = data => { // 管理员登陆
+    return request({
+        url: '/adminLogin',
+        method: 'post',
+        data
+    });
+};
+
+export const getAllLetter_v2 = query => { // 管理员查看列表
+    return request({
+        url: '/getAllLetter_v2',
+        method: 'get',
+        params: query
+    });
+};

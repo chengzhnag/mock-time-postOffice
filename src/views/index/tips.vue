@@ -156,7 +156,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .index-box {
     width: 100%;
     height: auto;

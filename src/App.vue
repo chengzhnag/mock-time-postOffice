@@ -1,6 +1,9 @@
 <template>
 <div id="app">
-    <div class="box">
+    <div class="main" v-if="this.$route.name && ['login','adminList'].includes(this.$route.name)">
+        <router-view />
+    </div>
+    <div class="box" v-if="this.$route.name && !['login','adminList'].includes(this.$route.name)">
         <div class="header">
             <el-menu router :default-active="activeIndex" class="el-menu-demo menu-box" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
                 <el-menu-item class="menu-item" index="/">写一封信</el-menu-item>
@@ -11,7 +14,7 @@
                 <el-menu-item class="menu-item" index="/faq">常见问题</el-menu-item>
             </el-menu>
             <div class="bg-box">
-				<img src="./assets/img/header3.jpg" alt="">
+                <img src="./assets/img/header3.jpg" alt="">
                 <span>时光邮局</span>
             </div>
         </div>
@@ -42,6 +45,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.$route.name);
         /* var href = location.href.split('#')[1];
         if (href.indexOf('&') == -1) {
             this.activeIndex = href;
@@ -64,8 +68,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import "./styles/responsive.scss";
+<style lang="less" scoped>
+@import "./styles/responsive.less";
 
 #app {
     width: 100%;

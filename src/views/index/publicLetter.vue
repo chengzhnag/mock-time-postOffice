@@ -86,7 +86,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .public-box {
     height: auto;
     display: flex;

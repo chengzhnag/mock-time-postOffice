@@ -115,9 +115,13 @@ html, body {
     height: 100%;
 }
 
-$screen-sm-min: 320px;
-$screen-sm-max: 768px;
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+.msgbox-content {
+    width: 60%;
+}
+
+@screen-sm-min: 320px;
+@screen-sm-max: 768px;
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
     .el-message-box {
         width: 96% !important;
     }
