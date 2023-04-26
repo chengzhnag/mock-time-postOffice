@@ -1,6 +1,6 @@
 # mock-time-postOffice
 
-本项目模拟[时光邮局](https://www.hi2future.com/) , 采用前后端分离模式, 适合新手入手Node.js的一个练手项目. ☞☞☞本人自己的[时光邮局](http://email.zsjustn.top)
+本项目模拟[时光邮局](https://www.hi2future.com/) , 采用前后端分离模式, 适合新手入手Node.js的一个练手项目.
 
 > 技术栈
 - Vue 前端
